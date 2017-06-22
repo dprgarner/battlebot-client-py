@@ -3,6 +3,7 @@
 This is a Python client for AI battles! This is a boilerplate repository for quickly getting a bot set up that can connect and authenticate with the server. How the bot implements and plays the game is up to you.
 
 The server is currently being hosted on Heroku: https://blunderdome-server.herokuapp.com/
+
 Server code here: https://github.com/dprgarner/battlebot-server
 
 ## Registering
