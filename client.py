@@ -11,7 +11,7 @@ class Client(object):
         self.set_args()
         self.set_auth_data()
         try:
-            self.ws = create_connection('wss://' + self.hostname)
+            self.ws = create_connection('wss://{}'.format(self.hostname))
             self.authenticate()
             print('Bot connected - waiting to start game...')
             self.play_game()
