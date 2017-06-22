@@ -1,0 +1,42 @@
+#!/bin/bash -e
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+main() {
+    cd "$root"
+
+    create_env
+    install_packages
+}
+
+create_env() {
+    if [[ -d env ]]; then
+        return
+    fi
+
+    scl enable python27 "
+        /opt/rh/python27/root/usr/bin/virtualenv env --system-site-packages
+        virtualenv env --system-site-packages
+        scl_patch_virtualenv env
+    "
+
+    ln -sf env/bin/activate
+}
+
+pip_install() {
+    pip install -U "$@" 2>&1 |
+    grep -v 'DEPRECATION: Failed to find'
+}
+
+upgrade_pip() {
+    pip_install -U 'pip==8.1.1'
+    pip_install -U 'setuptools==34.3.2'
+}
+
+install_packages() {
+    . "$root/activate"
+    upgrade_pip
+    pip_install -r "requirements.txt"
+}
+
+main "$@"
