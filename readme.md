@@ -47,6 +47,14 @@ NotImplementedError: Write your bot's logic here.
 
 The provided client.py file should be modified or extended with your custom logic for running the game.  All communication between the client and server is via JSON, so the client provides the two helper methods `recv`, which pauses until the server sends some data and then decodes it to an object, and `send`, which encodes a JSON-serialisable object and sends the data to the server. If the server closes the connection, the method `recv` will return None.
 
+## Contests
+
+To play in a contest, add the name of the contest as an argument, e.g.
+```bash
+> $ python client.py --contest=round-robin
+```
+The client will add an extra key to the login hash and will repeatedly attempt to reconnect after each game is played. The server will match up bots which are playing in the contest with other bots in the contest, provided that they have played each other less than five times in the contest. The API endpoint `/games/<game_name>/contest/<contest_name>` gives a summary of the games played in the contest and the rankings of the bots. A bot scores three points for a win, one point for a draw, and no points for a loss. Ties are broken on most wins, then fewest losses.
+
 ## Noughts and Crosses
 
 As soon as a game starts, the server will send an update of the following form to the client bot:
