@@ -10,6 +10,14 @@ class Client(object):
     def __init__(self):
         self.set_args()
         self.set_auth_data()
+
+        if self.contest:
+            while True:
+                self.connect()
+        else:
+            self.connect()
+
+    def connect(self):
         try:
             self.ws = create_connection('wss://{}'.format(self.hostname))
             self.authenticate()
@@ -44,7 +52,13 @@ class Client(object):
             '--authfile',
             type=str,
             default='auth.json',
-            help='Use a bot credentials JSON file. (Default: auth.json)'
+            help='Use a bot credentials JSON file. (Default: auth.json)',
+        )
+        parser.add_argument(
+            '--contest',
+            type=str,
+            default='',
+            help='Take part in a contest.',
         )
         args = parser.parse_args()
         for k, v in args._get_kwargs():
@@ -74,6 +88,8 @@ class Client(object):
             'login_hash': login_hash,
             'game': self.game,
         }
+        if self.contest:
+            login_message['contest'] = self.contest
         self.send(login_message)
 
         auth_response = self.recv()

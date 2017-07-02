@@ -38,7 +38,6 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-print(args.game, args.hostname)
 
 hostname = (
     args.hostname[:-1]
