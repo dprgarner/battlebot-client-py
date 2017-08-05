@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(
     description='Register the bot to the server and locally save the login credentials.'
 )
 parser.add_argument(
-    'bot_id',
+    '--bot',
     type=str,
     help='The name of the bot.'
 )
@@ -31,7 +31,7 @@ parser.add_argument(
     help='The owner of the bot. (Default: Anonymous)'
 )
 parser.add_argument(
-    '--authfile',
+    '--auth',
     type=str,
     default='auth.json',
     help='Save the bot credentials JSON to a different file. (Default: auth.json)'
@@ -44,19 +44,19 @@ hostname = (
     if args.hostname.endswith('/')
     else args.hostname
 )
-url = 'https://{}/bots/{}'.format(hostname, args.game)
+url = 'http://{}/bots/{}'.format(hostname, args.game)
 
 response = requests.post(url, json={
-    'bot_id': args.bot_id,
+    'bot': args.bot,
     'owner': args.owner,
 })
 if not response.ok:
     raise Exception(response.text)
-print('Bot {} registered successfully'.format(args.bot_id))
+print('Bot {} registered successfully'.format(args.bot))
 
 data = response.json()
 data['hostname'] = hostname
-json_file = path.join(path.dirname(path.realpath(__file__)), args.authfile)
+json_file = path.join(path.dirname(path.realpath(__file__)), args.auth)
 
 with open(json_file, 'w') as f:
     f.write(json.dumps(data, indent=2))

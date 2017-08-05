@@ -19,7 +19,7 @@ class Client(object):
 
     def connect(self):
         try:
-            self.ws = create_connection('wss://{}'.format(self.hostname))
+            self.ws = create_connection('ws://{}'.format(self.hostname))
             self.authenticate()
             print('Bot connected - waiting to start game...')
             self.play_game()
@@ -49,7 +49,7 @@ class Client(object):
             description='Python Battlebot Client'
         )
         parser.add_argument(
-            '--authfile',
+            '--auth',
             type=str,
             default='auth.json',
             help='Use a bot credentials JSON file. (Default: auth.json)',
@@ -67,7 +67,7 @@ class Client(object):
     def set_auth_data(self):
         auth_file = path.join(
             path.dirname(path.realpath(__file__)),
-            self.authfile,
+            self.auth,
         )
         with open(auth_file) as f:
             data = json.loads(f.read())
@@ -75,17 +75,10 @@ class Client(object):
             setattr(self, k, v)
 
     def authenticate(self):
-        # The first message from the server is always "salt". Append this to
-        # the bot's pass_hash, encrypt it with sha256, and then send a "login"
-        # message to the server.
-        salt = self.recv()['salt']
-        login_hash = hashlib.sha256(
-            '{}{}'.format(self.pass_hash, salt).encode()
-        ).hexdigest()
-
+        # On connect, send a "login" message to the server.
         login_message = {
-            'bot_id': self.bot_id,
-            'login_hash': login_hash,
+            'bot': self.bot,
+            'password': self.password,
             'game': self.game,
         }
         if self.contest:

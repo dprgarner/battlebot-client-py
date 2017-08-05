@@ -22,7 +22,7 @@ class NoughtsAndCrossesClient(Client):
                 print('{} has won the game.'.format(update['state']['victor']))
                 return
 
-            if update['state']['nextPlayer'] == self.bot_id:
+            if update['state']['nextPlayer'] == self.bot:
                 turn = self.play_turn(update['state'])
                 self.send(turn)
 
@@ -39,7 +39,7 @@ class NoughtsAndCrossesClient(Client):
             i += 1
         mark = (
             'X'
-            if state['marks']['X'] == self.bot_id
+            if state['marks']['X'] == self.bot
             else 'O'
         )
         return {'space': [space[0], space[1]], 'mark': mark}
