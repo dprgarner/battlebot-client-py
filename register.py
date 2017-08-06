@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(
     description='Register the bot to the server and locally save the login credentials.'
 )
 parser.add_argument(
-    '--bot',
+    '--name',
     type=str,
     help='The name of the bot.'
 )
@@ -19,10 +19,10 @@ parser.add_argument(
     help='The hostname of the bot server. (e.g. blunderdome-server.herokuapp.com)'
 )
 parser.add_argument(
-    '--game',
+    '--gametype',
     type=str,
     required=True,
-    help='The name of the game.'
+    help='The name of the game, e.g. noughtsandcrosses.'
 )
 parser.add_argument(
     '--owner',
@@ -51,10 +51,10 @@ mutation($name: ID!, $gameType: ID!, $owner: String!) {
   registerBot(name: $name, gameType: $gameType, owner: $owner) {
     password
     bot {
-      id
+      name
       owner
       gameType {
-        id
+        name
       }
       dateRegistered
     }
@@ -63,8 +63,8 @@ mutation($name: ID!, $gameType: ID!, $owner: String!) {
 """
 
 variables = {
-    'gameType': args.game,
-    'name': args.bot,
+    'gameType': args.gametype,
+    'name': args.name,
     'owner': args.owner,
 }
 
@@ -79,12 +79,12 @@ data = response.json()
 if data.get('errors'):
     raise Exception(data['errors'])
 
-print('Bot {} registered successfully'.format(args.bot))
+print('Bot {} registered successfully'.format(args.name))
 
 auth_data = {
     'hostname': hostname,
-    'game': args.game,
-    'bot': args.bot,
+    'game_type': args.gametype,
+    'name': args.name,
     'password': data['data']['registerBot']['password'],
 }
 json_file = path.join(path.dirname(path.realpath(__file__)), args.auth)

@@ -77,9 +77,9 @@ class Client(object):
     def authenticate(self):
         # On connect, send a "login" message to the server.
         login_message = {
-            'bot': self.bot,
+            'name': self.name,
             'password': self.password,
-            'game': self.game,
+            'gameType': self.game_type,
         }
         if self.contest:
             login_message['contest'] = self.contest
