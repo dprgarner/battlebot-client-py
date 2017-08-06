@@ -46,7 +46,6 @@ hostname = (
 )
 url = 'http://{}/graphql'.format(hostname)
 
-
 query = """
 mutation($name: ID!, $gameType: ID!, $owner: String!) {
   registerBot(name: $name, gameType: $gameType, owner: $owner) {
