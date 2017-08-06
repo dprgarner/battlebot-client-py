@@ -44,20 +44,52 @@ hostname = (
     if args.hostname.endswith('/')
     else args.hostname
 )
-url = 'http://{}/bots/{}'.format(hostname, args.game)
+url = 'http://{}/graphql'.format(hostname)
+
+
+query = """
+mutation($name: ID!, $gameType: ID!, $owner: String!) {
+  registerBot(name: $name, gameType: $gameType, owner: $owner) {
+    password
+    bot {
+      id
+      owner
+      gameType {
+        id
+      }
+      dateRegistered
+    }
+  }
+}
+"""
+
+variables = {
+    'gameType': args.game,
+    'name': args.bot,
+    'owner': args.owner,
+}
 
 response = requests.post(url, json={
-    'bot': args.bot,
-    'owner': args.owner,
+    'query': query,
+    'variables': variables,
 })
+
 if not response.ok:
     raise Exception(response.text)
+data = response.json()
+if data.get('errors'):
+    raise Exception(data['errors'])
+
 print('Bot {} registered successfully'.format(args.bot))
 
-data = response.json()
-data['hostname'] = hostname
+auth_data = {
+    'hostname': hostname,
+    'game': args.game,
+    'bot': args.bot,
+    'password': data['data']['registerBot']['password'],
+}
 json_file = path.join(path.dirname(path.realpath(__file__)), args.auth)
 
 with open(json_file, 'w') as f:
-    f.write(json.dumps(data, indent=2))
+    f.write(json.dumps(auth_data, indent=2))
 print('Bot data saved to {}'.format(json_file))
