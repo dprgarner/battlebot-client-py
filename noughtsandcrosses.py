@@ -18,8 +18,13 @@ class NoughtsAndCrossesClient(Client):
 
             print(json.dumps(update, indent=2))
 
-            if update['state']['complete']:
-                print('{} has won the game.'.format(update['state'].get('victor')))
+            if update['state'].get('result'):
+                victor = update['state']['result'].get('victor')
+                print(
+                    '{} has won the game.'.format(victor)
+                    if victor
+                    else 'The game was a draw.'
+                )
                 return
 
             if self.name in update['state']['waitingFor']:
