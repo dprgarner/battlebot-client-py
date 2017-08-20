@@ -44,7 +44,7 @@ hostname = (
     if args.hostname.endswith('/')
     else args.hostname
 )
-url = 'http://{}/graphql'.format(hostname)
+url = 'https://{}/graphql'.format(hostname)
 
 query = """
 mutation($name: ID!, $gameType: ID!, $owner: String!) {

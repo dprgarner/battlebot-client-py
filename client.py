@@ -19,7 +19,7 @@ class Client(object):
 
     def connect(self):
         try:
-            self.ws = create_connection('ws://{}'.format(self.hostname))
+            self.ws = create_connection('wss://{}'.format(self.hostname))
             self.authenticate()
             print('Bot connected - waiting to start game...')
             self.play_game()

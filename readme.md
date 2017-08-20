@@ -20,7 +20,7 @@ Bot data saved to /data/home/london/dgarner/idiotbot-client/auth.json
 > $ cat auth.json
 {
   "hostname": "blunderdome-server.herokuapp.com",
-  "gameType": "noughtsandcrosses",
+  "game_type": "noughtsandcrosses",
   "password": "8ad86f2934f347abf60ee7c192c96fbc8383de273c4c092de7ae97151b84d934",
   "name": "MyAwesomeBot"
 }
@@ -148,8 +148,11 @@ The following is an example of a server response, at the end of the game:
 }
 ```
 
-If a bot disconnects the websocket during the course of the game, then the bot is disqualified. If the bot makes three invalid moves, or takes longer than three seconds to play a move, then the bot is disqualified.
+If a bot disconnects the websocket during the course of the game, then the bot is disqualified. If the bot makes three invalid moves, or takes longer than five seconds to play a move, then the bot is disqualified.
 
 If you want to test your bot out, I'd suggest registering a second bot and having them play each other. I've also written a bot which randomly plays valid noughts and crosses turns, but doesn't really have any strategy - I can spin this up to repeatedly connect to the server when someone wants to try their own bot out.
 
 Happy bot-writing!
+
+# Licence
+ISC
