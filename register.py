@@ -22,7 +22,7 @@ parser.add_argument(
     '--gametype',
     type=str,
     required=True,
-    help='The name of the game, e.g. noughtsandcrosses.'
+    help='The name of the game, e.g. NOUGHTS_AND_CROSSES.'
 )
 parser.add_argument(
     '--owner',
@@ -47,15 +47,13 @@ hostname = (
 url = 'https://{}/graphql'.format(hostname)
 
 query = """
-mutation($name: ID!, $gameType: ID!, $owner: String!) {
-  registerBot(name: $name, gameType: $gameType, owner: $owner) {
+mutation($gameType: GameType!, $name: ID!, $owner: String!) {
+  registerBot(gameType: $gameType, name: $name, owner: $owner) {
     password
     bot {
       name
       owner
-      gameType {
-        name
-      }
+      gameType
       dateRegistered
     }
   }
@@ -63,9 +61,9 @@ mutation($name: ID!, $gameType: ID!, $owner: String!) {
 """
 
 variables = {
-    'gameType': args.gametype,
     'name': args.name,
     'owner': args.owner,
+    'gameType': args.gametype,
 }
 
 response = requests.post(url, json={
@@ -83,7 +81,6 @@ print('Bot {} registered successfully'.format(args.name))
 
 auth_data = {
     'hostname': hostname,
-    'game_type': args.gametype,
     'name': args.name,
     'password': data['data']['registerBot']['password'],
 }
