@@ -8,19 +8,16 @@ Server code here: https://github.com/dprgarner/battlebot-server
 
 ## Registering
 
-Before playing a game, each bot needs to register with the server. This consists of making a POST request to the endpoint `/games/noughtsandcrosses`, consisting of the name of the bot `name` and your name `owner`. The server will return a JSON object consisting of the `name`, the game type `gameType`, and `password` which is used to authenticate the bot when connecting via websocket.
+Before playing a game, each bot needs to register with the server. This consists of making a POST request to the GraphQL endpoint `/graphql`, consisting of the game type, the name of the bot, and your name. The server will return a response containing the bot data and the password, which is used to authenticate the bot when connecting via websocket. This registration can be done via the online GraphiQL interface at `/graphql`.
 
 The provided helper file 'register.py' will make this request and save the JSON file to 'auth.json'.
 
 ```bash
-> $ python register.py --hostname=blunderdome-server.herokuapp.com --gametype=noughtsandcrosses --owner=David MyAwesomeBot
-('noughtsandcrosses', 'blunderdome-server.herokuapp.com')
+> $ python register.py --hostname=blunderdome-server.herokuapp.com --gametype=NOUGHTS_AND_CROSSES --owner=David MyAwesomeBot
 Bot MyAwesomeBot registered successfully
-Bot data saved to /data/home/london/dgarner/idiotbot-client/auth.json
 > $ cat auth.json
 {
   "hostname": "blunderdome-server.herokuapp.com",
-  "game_type": "noughtsandcrosses",
   "password": "8ad86f2934f347abf60ee7c192c96fbc8383de273c4c092de7ae97151b84d934",
   "name": "MyAwesomeBot"
 }
