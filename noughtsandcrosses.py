@@ -5,6 +5,7 @@ from client import Client
 
 
 class NoughtsAndCrossesClient(Client):
+    GAME_TYPE = 'NOUGHTS_AND_CROSSES'
 
     def play_game(self):
         """

@@ -7,8 +7,6 @@ from websocket import create_connection
 
 
 class Client(object):
-    GAME_TYPE = 'NOUGHTS_AND_CROSSES'
-
     def __init__(self):
         self.set_args()
         self.set_auth_data()
