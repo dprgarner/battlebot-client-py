@@ -19,7 +19,8 @@ class Client(object):
 
     def connect(self):
         try:
-            self.ws = create_connection('wss://{}'.format(self.hostname))
+            protocol = 'ws' if self.no_ssl else 'wss'
+            self.ws = create_connection('{}://{}'.format(protocol, self.hostname))
             self.authenticate()
             print('Bot connected - waiting to start game...')
             self.play_game()
@@ -59,6 +60,14 @@ class Client(object):
             type=str,
             default='',
             help='Take part in a contest.',
+        )
+        parser.add_argument(
+        '--nossl',
+        dest='no_ssl',
+        action='store_const',
+        const=True,
+        default=False,
+        help='Connect to the server without SSL.'
         )
         args = parser.parse_args()
         for k, v in args._get_kwargs():

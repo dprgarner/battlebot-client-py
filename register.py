@@ -36,6 +36,14 @@ parser.add_argument(
     default='auth.json',
     help='Save the bot credentials JSON to a different file. (Default: auth.json)'
 )
+parser.add_argument(
+    '--nossl',
+    dest='no_ssl',
+    action='store_const',
+    const=True,
+    default=False,
+    help='Connect to the server without SSL.'
+)
 
 args = parser.parse_args()
 
@@ -44,7 +52,8 @@ hostname = (
     if args.hostname.endswith('/')
     else args.hostname
 )
-url = 'https://{}/graphql'.format(hostname)
+protocol = 'http' if args.no_ssl else 'https'
+url = '{}://{}/graphql'.format(protocol, hostname)
 
 query = """
 mutation($gameType: GameType!, $name: ID!, $owner: String!) {

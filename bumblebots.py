@@ -5,11 +5,11 @@ from client import Client
 
 
 CHAR_TO_INT = {
-  '.': 0,
-  '#': 1,
-  '£': 2,
-  '+': 3,
-  'x': 4,
+    '.': 0,
+    '#': 1,
+    '£': 2,
+    '+': 5,
+    'x': 6,
 };
 INT_TO_CHAR = {v: k for k, v in CHAR_TO_INT.items()}
 
