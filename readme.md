@@ -10,10 +10,10 @@ Server code here: https://github.com/dprgarner/battlebot-server
 
 Before playing a game, each bot needs to register with the server. This consists of making a POST request to the GraphQL endpoint `/graphql`, consisting of the game type, the name of the bot, and your name. The server will return a response containing the bot data and the password, which is used to authenticate the bot when connecting via websocket. This registration can be done via the online GraphiQL interface at `/graphql`.
 
-The provided helper file 'register.py' will make this request and save the JSON file to 'auth.json'.
+The provided helper file `register.py` will make this request and save the JSON file to `auth.json`. To save the authentication data to a different file, add the `--auth` parameter, e.g. `--auth=auth2.json`.
 
 ```bash
-> $ python register.py --hostname=blunderdome-server.herokuapp.com --gametype=NOUGHTS_AND_CROSSES --owner=David MyAwesomeBot
+> $ python register.py --hostname=blunderdome-server.herokuapp.com --gametype=NOUGHTS_AND_CROSSES --owner=David --name=MyAwesomeBot
 Bot MyAwesomeBot registered successfully
 > $ cat auth.json
 {
