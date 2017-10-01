@@ -151,5 +151,11 @@ If you want to test your bot out, I'd suggest registering a second bot and havin
 
 Happy bot-writing!
 
+## Bumblebots
+
+More documentation of how this game works is included here: https://github.com/dprgarner/battlebot-server#bumblebots
+
+The boilerplate Python client `bumblebots.py` moves each drone in a random direction on each tick, without checking for the validity of the move, or making any attempt to move towards a flower. Still, this should be enough to get started!
+
 # Licence
 ISC
